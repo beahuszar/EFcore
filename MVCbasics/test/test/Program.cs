@@ -19,9 +19,7 @@ namespace EntityFrameworkBasics
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            return new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+            return WebHost.CreateDefaultBuilder()
                 .UseStartup<Startup>()
                 .Build();
         }
