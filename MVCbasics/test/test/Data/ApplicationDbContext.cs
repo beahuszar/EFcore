@@ -8,15 +8,14 @@ namespace EntityFrameworkBasics.Data
         //this is a table in the database
         public  DbSet<SettingsDataModel> Settings { get; set; }
 
-        public ApplicationDbContext()
+        //pass them into the base Db context
+        /// <summary>
+        /// Default constructor, expecting database options passed in
+        /// </summary>
+        /// <param name="options">The database context options</param>
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=.;Database=entityframework;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
