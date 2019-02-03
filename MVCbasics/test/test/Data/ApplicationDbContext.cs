@@ -1,17 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace EntityFrameworkBasics.Data
+namespace Fasetto.Word.Web.Server.Data
 {
     //represent the DB connection to/with the application
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
-        //this is a table in the database
         public  DbSet<SettingsDataModel> Settings { get; set; }
 
-        //pass them into the base Db context
         /// <summary>
         /// Default constructor, expecting database options passed in
+        /// pass them into the base Db context
         /// </summary>
         /// <param name="options">The database context options</param>
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

@@ -1,27 +1,36 @@
-﻿using EntityFrameworkBasics.Data;
+﻿using Fasetto.Word.Web.Server.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace EntityFrameworkBasics.Controllers
+namespace Fasetto.Word.Web.Server.Controllers
 {
     //Homecontroller = .net will look for the Home folder and index html in it
     public class HomeController : Controller
     {
-        /// <summary>
-        /// The scoped Application context
-        /// </summary>
+
+        #region Protected members
         protected ApplicationDbContext mContext;
 
+        //User creation, deletion, searching, roles etc.
+        protected UserManager<ApplicationUser> mUserManager;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="context">The injected context</param>
-        public HomeController(ApplicationDbContext context)
+        //signin and out
+        protected SignInManager<ApplicationUser> mSignInManager;
+        #endregion
+
+        #region Constructor
+        public HomeController(
+            ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             mContext = context;
+            mUserManager = userManager;
+            mSignInManager = signInManager;
         }
-
+        #endregion
 
         public IActionResult Index()
         {
@@ -55,6 +64,22 @@ namespace EntityFrameworkBasics.Controllers
             }
 
             return View();
+        }
+
+        [Route("create")]
+        public async Task<IActionResult> CreateUserAsync()
+        {
+            var result = await mUserManager.CreateAsync(new ApplicationUser
+            {
+                UserName = "bea",
+                Email = "bea@bea.com"
+            });
+
+            if (result.Succeeded)
+            {
+
+            }
+            return Content("User was created", "text/html");
         }
     }
 }

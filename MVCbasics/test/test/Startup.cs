@@ -1,27 +1,35 @@
-﻿using EntityFrameworkBasics.Data;
+﻿using Fasetto.Word.Web.Server.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace EntityFrameworkBasics
+namespace Fasetto.Word.Web.Server
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Add identity adds cookie based authentication
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc();  
         }
@@ -31,6 +39,9 @@ namespace EntityFrameworkBasics
         {
             //Store instance of the DI provider so our application can access it anywhere
             IoCContainer.Provider = (ServiceProvider)serviceProvider;
+
+            //setup identity
+            app.UseAuthentication();
 
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();

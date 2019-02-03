@@ -1,10 +1,10 @@
-﻿using EntityFrameworkBasics.Data;
+﻿using Fasetto.Word.Web.Server.Data;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// A shorthand access class to get DI services with nice clean short code
 /// </summary>
-namespace EntityFrameworkBasics
+namespace Fasetto.Word.Web.Server
 {
     public static class IoC
     {

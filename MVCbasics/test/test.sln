@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkBasics", "test\EntityFrameworkBasics.csproj", "{6BB25974-AA78-43FE-92AB-1D451535B053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fasetto.Word.Web.Server", "test\Fasetto.Word.Web.Server.csproj", "{6BB25974-AA78-43FE-92AB-1D451535B053}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

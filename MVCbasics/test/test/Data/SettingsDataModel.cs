@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EntityFrameworkBasics.Data
+namespace Fasetto.Word.Web.Server.Data
 {
     public class SettingsDataModel
     {
