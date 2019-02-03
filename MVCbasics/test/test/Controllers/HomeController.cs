@@ -1,4 +1,6 @@
 ﻿using Fasetto.Word.Web.Server.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -73,13 +75,51 @@ namespace Fasetto.Word.Web.Server.Controllers
             {
                 UserName = "bea",
                 Email = "bea@bea.com"
-            });
+            }, "password");
+
+            if (result.Succeeded)
+                return Content("User was created", "text/html");
+            return Content("User creation failed", "text/html");
+        }
+
+        [Authorize]
+        [Route("private")]
+        public IActionResult Private()
+        {
+            return Content($"this is private, welcome {HttpContext.User.Identity.Name}", "text/html");
+        }
+
+        /// <summary>
+        /// Auto login page for testing
+        /// </summary>
+        /// <param name="returnUrl"> the url to return to if successfully logged in</param>
+        /// <returns></returns>
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync(string returnUrl)
+        {
+            //sign out any previous sessions
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+
+            var result = await mSignInManager.PasswordSignInAsync("bea", "password", true, false);
 
             if (result.Succeeded)
             {
 
+                if (string.IsNullOrEmpty(returnUrl))
+                    return RedirectToAction(nameof(Index));
+                        
+                return Redirect(returnUrl);
             }
-            return Content("User was created", "text/html");
+
+            return Content("Failed to login", "text/html");
+        }
+
+        [Route("logout")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return Content("done");
         }
     }
 }

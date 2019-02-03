@@ -31,6 +31,27 @@ namespace Fasetto.Word.Web.Server
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //change pwd validation policy
+            services.Configure<IdentityOptions>(options =>
+            {
+                //make weak pwds possible
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                //change default asp.net login endpoint
+                options.LoginPath = "/login";
+                //change cookie timeout
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+            });
+
+            
+
             services.AddMvc();  
         }
 
